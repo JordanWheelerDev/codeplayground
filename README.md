@@ -1,5 +1,7 @@
 # Code Playground
 
+**[Live Preview](https://jordanwheelerdev.github.io/codeplayground/)**
+
 **Code Playground** is an interactive web application that allows users to write, edit, and preview HTML, CSS, and JavaScript code in real time. It provides a convenient environment for quickly testing code snippets, learning web development, and experimenting with web technologies directly in the browser.
 
 ## Features
