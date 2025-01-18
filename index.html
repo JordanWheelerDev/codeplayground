@@ -9,38 +9,141 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.39.0/min/vs/editor/editor.main.css"
     />
-    <link rel="stylesheet" href="css/style.css" />
+    <!-- TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <!-- JSZip -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   </head>
-  <body>
+  <body class="bg-gray-900 text-white font-roboto h-screen">
     <!-- Navigation Bar -->
-    <div class="navbar">
-      <div class="title">Code Playground</div>
-      <div class="toolbar">
-        <button onclick="runCode()">Run</button>
-        <button onclick="resetCode()">Reset</button>
-        <button onclick="downloadCode()">Download</button>
+    <div
+      class="flex justify-between items-center bg-gray-800 p-4 shadow-md fixed w-full z-10"
+    >
+      <div class="text-xl font-bold">Code Playground</div>
+      <div class="flex gap-4">
+        <button
+          onclick="runCode()"
+          class="px-4 py-2 bg-gray-700 rounded-lg hover:bg-gray-600 transition"
+        >
+          Run
+        </button>
+        <button
+          onclick="resetCode()"
+          class="px-4 py-2 bg-gray-700 rounded-lg hover:bg-gray-600 transition"
+        >
+          Reset
+        </button>
+        <button
+          onclick="saveCode()"
+          class="px-4 py-2 bg-gray-700 rounded-lg hover:bg-gray-600 transition"
+        >
+          Save
+        </button>
+        <button
+          onclick="downloadCode()"
+          class="px-4 py-2 bg-gray-700 rounded-lg hover:bg-gray-600 transition"
+        >
+          Download
+        </button>
       </div>
     </div>
 
-    <!-- Editor and Output Preview -->
-    <div class="editor-container">
-      <div class="top-editor-container">
-        <div class="editor-box">
-          <div class="editor-title">HTML</div>
-          <div id="html-editor" class="editor-content"></div>
-        </div>
-        <div class="editor-box">
-          <div class="editor-title">CSS</div>
-          <div id="css-editor" class="editor-content"></div>
-        </div>
-        <div class="editor-box">
-          <div class="editor-title">JavaScript</div>
-          <div id="js-editor" class="editor-content"></div>
+    <!-- Main Content -->
+    <div class="flex pt-16 h-screen">
+      <!-- Sidebar -->
+      <div class="w-2/12 bg-gray-800 p-4 space-y-4">
+        <div class="space-y-2">
+          <!-- Navigation Links -->
+          <a
+            href="#recent-projects"
+            class="block text-gray-300 hover:text-white px-3 py-2 rounded-md transition duration-300"
+          >
+            Recent Projects
+          </a>
+          <a
+            href="#code-examples"
+            class="block text-gray-300 hover:text-white px-3 py-2 rounded-md transition duration-300"
+          >
+            Code Examples
+          </a>
+          <a
+            href="#tutorials"
+            class="block text-gray-300 hover:text-white px-3 py-2 rounded-md transition duration-300"
+          >
+            Tutorials
+          </a>
+          <a
+            href="#about"
+            class="block text-gray-300 hover:text-white px-3 py-2 rounded-md transition duration-300"
+          >
+            About
+          </a>
+          <a
+            href="#contact"
+            class="block text-gray-300 hover:text-white px-3 py-2 rounded-md transition duration-300"
+          >
+            Contact
+          </a>
         </div>
       </div>
-      <iframe id="output-preview"></iframe>
+
+      <!-- Editor and Output Preview -->
+      <div class="flex flex-col w-full p-4 gap-4">
+        <div class="grid grid-cols-2 grid-rows-2 gap-4 h-full w-full">
+          <div
+            class="bg-gray-800 border border-gray-700 rounded-lg flex flex-col"
+          >
+            <div
+              class="bg-gray-900 text-center text-sm p-1 border-b border-gray-700"
+            >
+              HTML
+            </div>
+            <div
+              id="html-editor"
+              class="flex-grow bg-gray-700 p-1 rounded-b-lg"
+            ></div>
+          </div>
+          <div
+            class="bg-gray-800 border border-gray-700 rounded-lg flex flex-col"
+          >
+            <div
+              class="bg-gray-900 text-center text-sm p-1 border-b border-gray-700"
+            >
+              CSS
+            </div>
+            <div
+              id="css-editor"
+              class="flex-grow bg-gray-700 p-1 rounded-b-lg"
+            ></div>
+          </div>
+          <div
+            class="bg-gray-800 border border-gray-700 rounded-lg flex flex-col"
+          >
+            <div
+              class="bg-gray-900 text-center text-sm p-1 border-b border-gray-700"
+            >
+              JavaScript
+            </div>
+            <div
+              id="js-editor"
+              class="flex-grow bg-gray-700 p-1 rounded-b-lg"
+            ></div>
+          </div>
+          <div
+            class="bg-gray-800 border border-gray-700 rounded-lg flex flex-col"
+          >
+            <div
+              class="bg-gray-900 text-center text-sm p-1 border-b border-gray-700"
+            >
+              Preview
+            </div>
+            <iframe
+              id="output-preview"
+              class="bg-gray-800 w-full h-full"
+            ></iframe>
+          </div>
+        </div>
+      </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.39.0/min/vs/loader.js"></script>
@@ -53,27 +156,27 @@
 
       require(["vs/editor/editor.main"], function () {
         const defaultHtml = `
-      <!DOCTYPE html>
-      <html>
-        <head>
-          <link rel="stylesheet" href="style.css">
-        </head>
-        <body>
-          <h1>Hello, World!</h1>
-          <button onclick="alert('Welcome!')">Click Me</button>
-        </body>
-      </html>
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <h1>Hello, World!</h1>
+    <button onclick="alert('Welcome!')">Click Me</button>
+  </body>
+</html>
               `.trim();
 
         const defaultCss = `
-      body {
-        font-family: Arial, sans-serif;
-        color: #ffffff;
-        background-color: #333;
-      }
-      h1 {
-        color: #ff6347;
-      }
+body {
+  font-family: Arial, sans-serif;
+  color: #ffffff;
+  background-color: #333;
+}
+h1 {
+  color: #ff6347;
+}
               `.trim();
 
         const defaultJs = `
